@@ -6,24 +6,24 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-public class Player {
+public class Place {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    @Column(nullable = false, unique = true)
-    private String key;
-
     @Column(nullable = false)
     private String name;
 
     @JoinColumn(nullable = false)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Team team;
+    private Level level;
 
-    public Player() {
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Category category;
+
+    public Place() {
         id = UUID.randomUUID().toString();
     }
 
@@ -35,14 +35,6 @@ public class Player {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
     public String getName() {
         return name;
     }
@@ -51,11 +43,19 @@ public class Player {
         this.name = name;
     }
 
-    public Team getTeam() {
-        return team;
+    public Level getLevel() {
+        return level;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

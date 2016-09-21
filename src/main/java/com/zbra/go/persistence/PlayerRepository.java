@@ -1,12 +1,12 @@
 package com.zbra.go.persistence;
 
-import com.zbra.go.model.Team;
+import com.zbra.go.model.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TeamRepository extends JpaRepository<Team, String> {
+public interface PlayerRepository extends JpaRepository<Player, String> {
 
-    Team findByKey(String key);
+    Player findByKey(String key);
 
 }

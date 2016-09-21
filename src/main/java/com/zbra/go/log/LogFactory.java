@@ -1,12 +1,7 @@
 package com.zbra.go.log;
 
-public class LogFactory {
+public interface LogFactory {
 
-    private LogFactory() {
-    }
-
-    public static Log createLog(Class<?> clazz) {
-        return new Slf4jImpl(clazz);
-    }
+    Log createLog(Class<?> clazz);
 
 }
