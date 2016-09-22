@@ -10,11 +10,11 @@ class Slf4jImpl implements Log {
 
     private final Logger logger;
 
-    public Slf4jImpl(String name) {
+    private Slf4jImpl(String name) {
         this.logger = LoggerFactory.getLogger(name);
     }
 
-    public Slf4jImpl(Class<?> clazz) {
+    Slf4jImpl(Class<?> clazz) {
         this(clazz.getName());
     }
 

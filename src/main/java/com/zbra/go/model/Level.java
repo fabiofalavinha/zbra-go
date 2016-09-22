@@ -3,27 +3,28 @@ package com.zbra.go.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-public class Player {
+public class Level {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    @Column(nullable = false, unique = true)
-    private String key;
-
     @Column(nullable = false)
     private String name;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "level")
+    private Set<Place> places;
+
     @JoinColumn(nullable = false)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Team team;
+    private GameSession gameSession;
 
-    public Player() {
+    public Level() {
         id = UUID.randomUUID().toString();
     }
 
@@ -35,14 +36,6 @@ public class Player {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
     public String getName() {
         return name;
     }
@@ -51,11 +44,19 @@ public class Player {
         this.name = name;
     }
 
-    public Team getTeam() {
-        return team;
+    public Set<Place> getPlaces() {
+        return places;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setPlaces(Set<Place> places) {
+        this.places = places;
+    }
+
+    public GameSession getGameSession() {
+        return gameSession;
+    }
+
+    public void setGameSession(GameSession gameSession) {
+        this.gameSession = gameSession;
     }
 }
