@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class LevelController {
 
-    @RequestMapping(value = "/photo", method = RequestMethod.POST)
+    @RequestMapping(value = "/image", method = RequestMethod.POST)
     public void uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         // TODO
         // 1) create Image and ImageFile class
