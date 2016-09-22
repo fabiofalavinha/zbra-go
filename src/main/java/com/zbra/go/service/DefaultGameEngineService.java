@@ -3,7 +3,6 @@ package com.zbra.go.service;
 import com.zbra.go.model.GameSession;
 import com.zbra.go.model.Level;
 import com.zbra.go.model.LevelFactory;
-import com.zbra.go.model.Team;
 import com.zbra.go.persistence.GameSessionRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ class DefaultGameEngineService implements GameEngineService {
     @Transactional
     @Override
     public void start() {
-        List<GameSession> gameSessions = gameSessionRepository.findAll();
+        final List<GameSession> gameSessions = gameSessionRepository.findAll();
 
         if (!gameSessions.stream().allMatch(GameSession::hasEnded)) {
             throw new IllegalStateException("Can't started again because we still have teams playing");
@@ -36,9 +35,7 @@ class DefaultGameEngineService implements GameEngineService {
 
         final DateTime gameStarted = DateTime.now();
 
-        List<Team> teams = teamService.findAll();
-
-        teams.forEach(t -> {
+        teamService.findAll().forEach(t -> {
             GameSession gameSession = new GameSession();
             gameSession.setTeam(t);
             Set<Level> levels = levelFactory.createLevels(gameSession);
@@ -53,13 +50,13 @@ class DefaultGameEngineService implements GameEngineService {
     @Transactional
     @Override
     public void stop() {
-        List<GameSession> gameSessions = gameSessionRepository.findAll();
+        final DateTime end = DateTime.now();
+        final List<GameSession> gameSessions = gameSessionRepository.findAll();
 
         gameSessions.forEach(s -> {
-            s.setEnded(DateTime.now().toDate());
+            s.setEnded(end.toDate());
 
             gameSessionRepository.save(s);
         });
     }
-
 }

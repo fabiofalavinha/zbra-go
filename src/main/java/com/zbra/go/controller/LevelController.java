@@ -12,8 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 public class LevelController {
 
     @RequestMapping(value = "/photo", method = RequestMethod.POST)
-    public void uploadPhoto(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-
+    public void uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        // TODO
+        // 1) create Image and ImageFile class
+        // 2) populate ImageFile object with file input stream
+        // 3) process image file using orientation metadata
+        // 4) store image and thumbnail
+        // 5) return ImageFile
     }
 
 }
