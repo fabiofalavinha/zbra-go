@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 @Component
 @ConfigurationProperties(prefix = "storage")
-public class MediaStorageSettings {
+public class StorageSettings {
 
     private String basePath;
     private String imagePath;

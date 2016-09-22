@@ -4,7 +4,7 @@ import com.zbra.go.log.Log;
 import com.zbra.go.log.LogFactory;
 import com.zbra.go.model.Image;
 import com.zbra.go.model.ImageFile;
-import com.zbra.go.model.MediaStorageSettings;
+import com.zbra.go.model.StorageSettings;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.ImageMetadata;
@@ -34,7 +34,7 @@ public class DefaultImageFileProcessor implements ImageFileProcessor {
     private ImageRotateProcessorFactory imageRotateProcessorFactory;
 
     @Autowired
-    private MediaStorageSettings mediaStorageSettings;
+    private StorageSettings storageSettings;
 
     @Override
     public ImageFile process(Image image) throws IOException {
@@ -86,8 +86,8 @@ public class DefaultImageFileProcessor implements ImageFileProcessor {
     }
 
     private ImageFile toImageFile(Image image) {
-        final String imageAbsolutePath = mediaStorageSettings.getImageAbsolutePath(image.getFilename()).toAbsolutePath().toString();
-        final String thumbnailAbsolutePath = imageAbsolutePath.concat(mediaStorageSettings.getThumbnailExtension());
+        final String imageAbsolutePath = storageSettings.getImageAbsolutePath(image.getFilename()).toAbsolutePath().toString();
+        final String thumbnailAbsolutePath = imageAbsolutePath.concat(storageSettings.getThumbnailExtension());
 
         final ImageFile mediaFile = new ImageFile();
         mediaFile.setMediaId(image.getId());
