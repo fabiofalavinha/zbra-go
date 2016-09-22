@@ -51,9 +51,8 @@ class DefaultGameEngineService implements GameEngineService {
     @Override
     public void stop() {
         final DateTime end = DateTime.now();
-        final List<GameSession> gameSessions = gameSessionRepository.findAll();
 
-        gameSessions.forEach(s -> {
+        gameSessionRepository.findAll().forEach(s -> {
             s.setEnded(end.toDate());
 
             gameSessionRepository.save(s);
