@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class LevelController {
@@ -25,6 +26,9 @@ public class LevelController {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private ImageUrlFactory imageUrlFactory;
 
     @RequestMapping(value = "/image", method = RequestMethod.POST)
     public ImageFileDTO uploadImage(
@@ -43,23 +47,19 @@ public class LevelController {
 
         final Image newImage = new Image();
         newImage.setInputStream(file.getInputStream());
-        newImage.setName(file.getOriginalFilename());
+        newImage.setName(UUID.randomUUID().toString());
         newImage.setOwner(playerMaybe.get());
 
         ImageFile imageFile = imageService.store(newImage);
 
-        return ImageFileConverter.toImageFile(imageFile, ImageUrlFactory.newImageUrlFactory(request));
+        return ImageFileConverter.toImageFile(imageFile, imageUrlFactory, request);
     }
 
     @RequestMapping(value = "/image/{mediaId}", method = RequestMethod.GET)
-    public ImageFileDTO getImageFile(
-        @PathVariable String mediaId,
-        HttpServletRequest request) {
-
+    public ImageFileDTO getImageFile(@PathVariable("mediaId") String mediaId, HttpServletRequest request) {
         final Optional<ImageFile> imageFile = imageService.findByMediaId(mediaId);
-
         return imageFile.isPresent()
-                ? ImageFileConverter.toImageFile(imageFile.get(), ImageUrlFactory.newImageUrlFactory(request))
-                : new ImageFileDTO();
+            ? ImageFileConverter.toImageFile(imageFile.get(), imageUrlFactory, request)
+            : new ImageFileDTO();
     }
 }

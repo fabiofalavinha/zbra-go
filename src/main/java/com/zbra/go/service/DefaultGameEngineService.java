@@ -64,10 +64,11 @@ class DefaultGameEngineService implements GameEngineService {
 
                 Level firstLevel = levels.iterator().next();
                 firstLevel.setStarted(gameStarted);
-                gameSession.setCurrentLevel(firstLevel);
+                gameSession.setCurrentLevelType(firstLevel.getLevelType());
             } else {
                 gameSession = gameSessionMaybe.get();
-                Level currentLevel = gameSession.getCurrentLevel();
+
+                Level currentLevel = gameSession.getCurrentLevelByType();
                 currentLevel.setEnded(null);
                 currentLevel.setStarted(gameStarted);
             }
@@ -91,7 +92,7 @@ class DefaultGameEngineService implements GameEngineService {
         gameEngineRepository.save(gameEngine);
 
         gameSessionRepository.findAll().forEach(s -> {
-            s.getCurrentLevel().setEnded(end.toDate());
+            s.getCurrentLevelByType().setEnded(end.toDate());
             gameSessionRepository.save(s);
         });
     }

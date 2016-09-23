@@ -32,15 +32,15 @@ class DefaultImageService implements ImageService {
 
     @PostConstruct
     public void setupDirectory() throws FileSystemException, FileNotFoundException {
-        File basePath = Paths.get(storageSettings.getBasePath()).toAbsolutePath().toFile();
-        if (!basePath.exists()) {
-            boolean created = basePath.mkdir();
+        File imagePath = Paths.get(storageSettings.getBasePath(), storageSettings.getImagePath()).toAbsolutePath().toFile();
+        if (!imagePath.exists()) {
+            boolean created = imagePath.mkdirs();
             if (!created) {
-                throw new FileSystemException(String.format("Can't create base path directory [%s]. Are we have permission to create directory? Check server path permissions.", basePath.toString()));
+                throw new FileSystemException(String.format("Can't create images path directory [%s]. Are we have permission to create directory? Check server path permissions.", imagePath.toString()));
             }
         } else {
-            if (!basePath.isDirectory()) {
-                throw new FileNotFoundException(String.format("Base path isn't a directory [%s]. Check 'storage' settings into application properties file.", basePath.toString()));
+            if (!imagePath.isDirectory()) {
+                throw new FileNotFoundException(String.format("Images path isn't a directory [%s]. Check 'storage' settings into application properties file.", imagePath.toString()));
             }
         }
     }
@@ -58,7 +58,7 @@ class DefaultImageService implements ImageService {
                 throw new IllegalStateException(String.format("Game session for team [%s] wasn't start yet", team.getName()));
             }
 
-            imageFile.setCurrentLevel(gameSessionTeamMaybe.get().getCurrentLevel());
+            imageFile.setLevelType(gameSessionTeamMaybe.get().getCurrentLevelType());
             imageFileRepository.save(imageFile);
             return imageFile;
         } catch (IOException e) {

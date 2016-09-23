@@ -30,8 +30,9 @@ public class ImageFile {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Player owner;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Level currentLevel;
+    @Column
+    @Enumerated(value = EnumType.STRING)
+    private LevelType levelType;
 
     public ImageFile() {
         id = UUID.randomUUID().toString();
@@ -102,11 +103,11 @@ public class ImageFile {
         this.owner = owner;
     }
 
-    public Level getCurrentLevel() {
-        return currentLevel;
+    public LevelType getLevelType() {
+        return levelType;
     }
 
-    public void setCurrentLevel(Level currentLevel) {
-        this.currentLevel = currentLevel;
+    public void setLevelType(LevelType levelType) {
+        this.levelType = levelType;
     }
 }

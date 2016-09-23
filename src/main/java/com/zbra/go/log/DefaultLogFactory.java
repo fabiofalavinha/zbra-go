@@ -5,6 +5,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultLogFactory implements LogFactory {
 
+    public static Log createSimpleLog(Class<?> clazz) {
+        return new DefaultLogFactory().createLog(clazz);
+    }
+
     private DefaultLogFactory() {
     }
 

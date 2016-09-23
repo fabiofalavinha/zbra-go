@@ -31,6 +31,10 @@ public class Level {
     @Column
     private Date ended;
 
+    @Column(unique = true)
+    @Enumerated(EnumType.STRING)
+    private LevelType levelType;
+
     public Level() {
         id = UUID.randomUUID().toString();
     }
@@ -81,5 +85,13 @@ public class Level {
 
     public void setEnded(Date ended) {
         this.ended = ended;
+    }
+
+    public LevelType getLevelType() {
+        return levelType;
+    }
+
+    public void setLevelType(LevelType levelType) {
+        this.levelType = levelType;
     }
 }

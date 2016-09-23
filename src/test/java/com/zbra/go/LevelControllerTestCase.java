@@ -12,11 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.boot.test.json.JsonContent;
 import org.springframework.boot.test.json.JsonContentAssert;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,10 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -83,10 +78,10 @@ public class LevelControllerTestCase {
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
     }
 
-    /*@Test
+    @Test
     public void testUploadDownloadImage() throws Exception {
-        gameController.startGame();
         final TeamDTO team = addTestTeam();
+        gameController.startGame();
         final String playerKey = team.getPlayers().iterator().next().getKey();
 
         final MvcResult result = mockMvc.perform(
@@ -114,7 +109,7 @@ public class LevelControllerTestCase {
         Assert.isTrue(imageFileDIO.getMediaId().equals(returnedImageFileDIO.getMediaId()));
         Assert.isTrue(imageFileDIO.getThumbnailUrl().equals(returnedImageFileDIO.getThumbnailUrl()));
         Assert.isTrue(imageFileDIO.getUrl().equals(returnedImageFileDIO.getUrl()));
-    }*/
+    }
 
 	private TeamDTO addTestTeam() throws Exception {
         List<PlayerDTO> players = new ArrayList<>();

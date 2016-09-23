@@ -20,8 +20,9 @@ public class GameSession {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "gameSession")
     private Set<Level> levels;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Level currentLevel;
+    @Column
+    @Enumerated(value = EnumType.STRING)
+    private LevelType currentLevelType;
 
     public GameSession() {
         id = UUID.randomUUID().toString();
@@ -51,11 +52,15 @@ public class GameSession {
         this.levels = levels;
     }
 
-    public Level getCurrentLevel() {
-        return currentLevel;
+    public LevelType getCurrentLevelType() {
+        return currentLevelType;
     }
 
-    public void setCurrentLevel(Level currentLevel) {
-        this.currentLevel = currentLevel;
+    public void setCurrentLevelType(LevelType currentLevelType) {
+        this.currentLevelType = currentLevelType;
+    }
+
+    public Level getCurrentLevelByType() {
+        return levels.stream().filter(l -> l.getLevelType().equals(currentLevelType)).findAny().get();
     }
 }
