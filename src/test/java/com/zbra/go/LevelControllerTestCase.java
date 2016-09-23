@@ -24,10 +24,8 @@ public class LevelControllerTestCase {
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 
-	private MockMvc mockMvc;
-
 	@Test
-	public void testUploadImageWithUnknownPlayer() throws Exception {
+	public void testUploadImageWithUnknownPlayerWhenGameWasNotStarted() throws Exception {
         final String playerKey = "P1";
         final File file = new File("resources/image-test.png");
         final byte[] fileData = FileUtils.readFileToByteArray(file);
@@ -35,7 +33,6 @@ public class LevelControllerTestCase {
         final MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(
                 MockMvcRequestBuilders.fileUpload("/image").file(mockMultipartFile).header("Player-Key", playerKey))
-                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+                .andExpect(status().is(HttpStatus.NOT_ACCEPTABLE.value()));
 	}
-
 }

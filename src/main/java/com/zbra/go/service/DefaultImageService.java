@@ -1,8 +1,6 @@
 package com.zbra.go.service;
 
-import com.zbra.go.model.Image;
-import com.zbra.go.model.ImageFile;
-import com.zbra.go.model.StorageSettings;
+import com.zbra.go.model.*;
 import com.zbra.go.persistence.ImageFileRepository;
 import com.zbra.go.service.imaging.ImageFileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 @Service
 class DefaultImageService implements ImageService {
@@ -27,6 +26,9 @@ class DefaultImageService implements ImageService {
 
     @Autowired
     private StorageSettings storageSettings;
+
+    @Autowired
+    private GameEngineService gameEngineService;
 
     @PostConstruct
     public void setupDirectory() throws FileSystemException, FileNotFoundException {
@@ -48,6 +50,15 @@ class DefaultImageService implements ImageService {
     public ImageFile store(Image image) {
         try {
             ImageFile imageFile = imageFileProcessor.process(image);
+            imageFile.setOwner(image.getOwner());
+
+            Team team = image.getOwner().getTeam();
+            Optional<GameSession> gameSessionTeamMaybe = gameEngineService.findGameSessionByTeam(team);
+            if (!gameSessionTeamMaybe.isPresent()) {
+                throw new IllegalStateException(String.format("Game session for team [%s] wasn't start yet", team.getName()));
+            }
+
+            imageFile.setCurrentLevel(gameSessionTeamMaybe.get().getCurrentLevel());
             imageFileRepository.save(imageFile);
             return imageFile;
         } catch (IOException e) {

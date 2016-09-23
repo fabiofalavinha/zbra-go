@@ -3,7 +3,6 @@ package com.zbra.go.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,12 +22,6 @@ public class GameSession {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Level currentLevel;
-
-    @Column(nullable = false)
-    private Date started;
-
-    @Column
-    private Date ended;
 
     public GameSession() {
         id = UUID.randomUUID().toString();
@@ -64,25 +57,5 @@ public class GameSession {
 
     public void setCurrentLevel(Level currentLevel) {
         this.currentLevel = currentLevel;
-    }
-
-    public Date getStarted() {
-        return started;
-    }
-
-    public void setStarted(Date started) {
-        this.started = started;
-    }
-
-    public Date getEnded() {
-        return ended;
-    }
-
-    public void setEnded(Date ended) {
-        this.ended = ended;
-    }
-
-    public boolean hasEnded() {
-        return ended != null && ended.after(started);
     }
 }

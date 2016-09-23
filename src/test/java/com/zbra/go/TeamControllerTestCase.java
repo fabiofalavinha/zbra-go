@@ -54,4 +54,31 @@ public class TeamControllerTestCase {
         final MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(MockMvcRequestBuilders.post("/teams").contentType("application/json").content(json)).andExpect(status().is(HttpStatus.OK.value()));
     }
+
+    @Test
+    public void testRegisterTeamWithKeyNull() throws Exception {
+        List<PlayerDTO> players = new ArrayList<>();
+        PlayerDTO player1 = new PlayerDTO();
+        // Setting team.key to NULL
+        player1.setKey(null);
+        player1.setName("Player " + new Random().nextInt());
+        players.add(player1);
+
+        List<TeamDTO> teams = new ArrayList<>();
+
+        TeamDTO team = new TeamDTO();
+        team.setKey(UUID.randomUUID().toString());
+        team.setName("Team " + new Random().nextInt());
+        team.setPlayers(players);
+        teams.add(team);
+
+        TeamEnrollmentRequest request = new TeamEnrollmentRequest();
+        request.setTeams(teams);
+
+        ObjectMapper o = new ObjectMapper();
+        String json = o.writeValueAsString(request);
+
+        final MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/teams").contentType("application/json").content(json)).andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
 }

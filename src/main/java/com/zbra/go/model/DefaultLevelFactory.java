@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class DefaultLevelFactory implements LevelFactory {
+class DefaultLevelFactory implements LevelFactory {
 
     @Autowired
     private CategoryService categoryService;
