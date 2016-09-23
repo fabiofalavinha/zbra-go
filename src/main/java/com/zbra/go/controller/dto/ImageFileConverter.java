@@ -13,7 +13,7 @@ public final class ImageFileConverter {
         dto.setMediaId(imageFile.getMediaId());
         dto.setUrl(url);
         dto.setThumbnailUrl(thumbnailUrl);
-        return null;
+        return dto;
     }
 
     private ImageFileConverter() {

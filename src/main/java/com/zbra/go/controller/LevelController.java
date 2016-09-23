@@ -10,10 +10,7 @@ import com.zbra.go.model.Player;
 import com.zbra.go.service.ImageService;
 import com.zbra.go.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +43,7 @@ public class LevelController {
 
         final Image newImage = new Image();
         newImage.setInputStream(file.getInputStream());
-        newImage.setName(file.getName());
+        newImage.setName(file.getOriginalFilename());
         newImage.setOwner(playerMaybe.get());
 
         ImageFile imageFile = imageService.store(newImage);
@@ -54,4 +51,15 @@ public class LevelController {
         return ImageFileConverter.toImageFile(imageFile, ImageUrlFactory.newImageUrlFactory(request));
     }
 
+    @RequestMapping(value = "/image/{mediaId}", method = RequestMethod.GET)
+    public ImageFileDTO getImageFile(
+        @PathVariable String mediaId,
+        HttpServletRequest request) {
+
+        final Optional<ImageFile> imageFile = imageService.findByMediaId(mediaId);
+
+        return imageFile.isPresent()
+                ? ImageFileConverter.toImageFile(imageFile.get(), ImageUrlFactory.newImageUrlFactory(request))
+                : new ImageFileDTO();
+    }
 }

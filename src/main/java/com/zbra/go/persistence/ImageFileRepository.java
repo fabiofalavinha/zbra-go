@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ImageFileRepository extends JpaRepository<ImageFile, String> {
+
+    ImageFile findByMediaId(String mediaId);
 }

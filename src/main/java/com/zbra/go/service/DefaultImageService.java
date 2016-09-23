@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 @Service
 class DefaultImageService implements ImageService {
@@ -53,5 +54,12 @@ class DefaultImageService implements ImageService {
         } catch (IOException e) {
             throw new IllegalStateException(String.format("Error processing image [%s]", image.getName()));
         }
+    }
+
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<ImageFile> findByMediaId(String mediaId) {
+        return Optional.ofNullable(imageFileRepository.findByMediaId(mediaId));
     }
 }
