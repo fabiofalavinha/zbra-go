@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/admin") // TODO Change this to something least obvious
+@RequestMapping("/jedai")
 public class AdminDashboardController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

@@ -3,10 +3,7 @@ package com.zbra.go.model;
 import org.apache.commons.io.FilenameUtils;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,7 +26,12 @@ public class ImageFile {
 
     @Column(nullable = false)
     private Date createdOn;
-    private String filename;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Player owner;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Level currentLevel;
 
     public ImageFile() {
         id = UUID.randomUUID().toString();
@@ -90,5 +92,21 @@ public class ImageFile {
 
     public String getThumbnailFilename() {
         return FilenameUtils.getName(thumbnailPath);
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(Level currentLevel) {
+        this.currentLevel = currentLevel;
     }
 }
