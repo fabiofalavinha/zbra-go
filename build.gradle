@@ -29,6 +29,7 @@ repositories {
 }
 
 dependencies {
+	// Spring
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-cache')
@@ -36,12 +37,21 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-devtools')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+
+	// Utils
 	compile('org.apache.commons:commons-lang3:3.4')
 	compile('org.apache.commons:commons-imaging:1.0-SNAPSHOT')
     compile('net.coobird:thumbnailator:0.4.8')
     compile('commons-codec:commons-codec:1.9')
 	compile('commons-io:commons-io:2.5')
 	compile('joda-time:joda-time:2.8.2')
+
+	// DB
 	runtime('org.hsqldb:hsqldb')
+
+	// webjars
+	compile "org.webjars:bootstrap:3.3.7"
+	compile "org.webjars:jquery:2.1.4"
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
