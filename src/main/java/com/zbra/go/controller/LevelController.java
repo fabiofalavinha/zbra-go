@@ -1,9 +1,9 @@
 package com.zbra.go.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zbra.go.controller.dto.ImageFileConverter;
 import com.zbra.go.controller.dto.ImageFileDTO;
 import com.zbra.go.controller.util.ImageUrlFactory;
+import com.zbra.go.controller.util.JsonUtils;
 import com.zbra.go.controller.util.RequestUtils;
 import com.zbra.go.model.GeoLocation;
 import com.zbra.go.model.Image;
@@ -47,7 +47,7 @@ public class LevelController {
             throw new IllegalArgumentException("Geo location is required");
         }
 
-        final GeoLocation location = new ObjectMapper().readValue(locationJson, GeoLocation.class);
+        final GeoLocation location = JsonUtils.fromJson(locationJson, GeoLocation.class);
 
         final Optional<Player> playerMaybe = playerService.findByKey(playerKey);
         if (!playerMaybe.isPresent()) {
