@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
-class DefaultImageService implements ImageService {
+public class DefaultImageService implements ImageService {
 
     @Autowired
     private ImageFileProcessor imageFileProcessor;
