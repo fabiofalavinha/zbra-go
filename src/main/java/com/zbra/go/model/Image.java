@@ -12,6 +12,7 @@ public class Image {
     private String name;
     private InputStream inputStream;
     private Player owner;
+    private GeoLocation location;
 
     public Image() {
         id = UUID.randomUUID().toString();
@@ -47,5 +48,13 @@ public class Image {
 
     public Player getOwner() {
         return owner;
+    }
+
+    public GeoLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(GeoLocation location) {
+        this.location = location;
     }
 }

@@ -51,6 +51,7 @@ class DefaultImageService implements ImageService {
         try {
             ImageFile imageFile = imageFileProcessor.process(image);
             imageFile.setOwner(image.getOwner());
+            imageFile.setLocation(image.getLocation());
 
             Team team = image.getOwner().getTeam();
             Optional<GameSession> gameSessionTeamMaybe = gameEngineService.findGameSessionByTeam(team);

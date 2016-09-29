@@ -34,6 +34,9 @@ public class ImageFile {
     @Enumerated(value = EnumType.STRING)
     private LevelType levelType;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private GeoLocation location;
+
     public ImageFile() {
         id = UUID.randomUUID().toString();
         createdOn = new Date();
@@ -109,5 +112,13 @@ public class ImageFile {
 
     public void setLevelType(LevelType levelType) {
         this.levelType = levelType;
+    }
+
+    public void setLocation(GeoLocation location) {
+        this.location = location;
+    }
+
+    public GeoLocation getLocation() {
+        return location;
     }
 }

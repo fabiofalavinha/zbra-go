@@ -59,14 +59,17 @@ public class LevelControllerTestCase {
     public void testUploadImageWithUnknownPlayerWhenGameWasNotStarted() throws Exception {
         final String playerKey = "P1";
         mockMvc.perform(
-                requestBuilder.file(mockMultipartFile).header("Player-Key", playerKey))
+                requestBuilder.file(mockMultipartFile)
+                    .param("location", "{ \"latitude\": 38.883458, \"longitude\": -77.042954 }")
+                    .header("Player-Key", playerKey))
                 .andExpect(status().is(HttpStatus.NOT_ACCEPTABLE.value()));
     }
 
     @Test
     public void testUploadImageWithoutPlayerWhenGameWasNotStarted() throws Exception {
         mockMvc.perform(
-                requestBuilder.file(mockMultipartFile))
+                requestBuilder.file(mockMultipartFile)
+                    .param("location", "{ \"latitude\": 38.883458, \"longitude\": -77.042954 }"))
                 .andExpect(status().is(HttpStatus.NOT_ACCEPTABLE.value()));
     }
 
@@ -85,7 +88,9 @@ public class LevelControllerTestCase {
         final String playerKey = team.getPlayers().iterator().next().getKey();
 
         final MvcResult result = mockMvc.perform(
-                requestBuilder.file(mockMultipartFile).header("Player-Key", playerKey))
+                requestBuilder.file(mockMultipartFile)
+                    .param("location", "{ \"latitude\": 38.883458, \"longitude\": -77.042954 }")
+                    .header("Player-Key", playerKey))
                 .andExpect(status().is(HttpStatus.OK.value()))
                 .andReturn();
 

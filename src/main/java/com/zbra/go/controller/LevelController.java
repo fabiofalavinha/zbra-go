@@ -1,9 +1,11 @@
 package com.zbra.go.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zbra.go.controller.dto.ImageFileConverter;
 import com.zbra.go.controller.dto.ImageFileDTO;
 import com.zbra.go.controller.util.ImageUrlFactory;
 import com.zbra.go.controller.util.RequestUtils;
+import com.zbra.go.model.GeoLocation;
 import com.zbra.go.model.Image;
 import com.zbra.go.model.ImageFile;
 import com.zbra.go.model.Player;
@@ -33,12 +35,19 @@ public class LevelController {
     @RequestMapping(value = "/image", method = RequestMethod.POST)
     public ImageFileDTO uploadImage(
         @RequestParam("file") MultipartFile file,
+        @RequestParam("location") String locationJson,
         HttpServletRequest request) throws IOException {
 
         final String playerKey = RequestUtils.getPlayerKey(request);
         if (playerKey == null || playerKey.isEmpty()) {
             throw new IllegalArgumentException("Request header [Player-Key] is missing");
         }
+
+        if (locationJson == null || locationJson.isEmpty()) {
+            throw new IllegalArgumentException("Geo location is required");
+        }
+
+        final GeoLocation location = new ObjectMapper().readValue(locationJson, GeoLocation.class);
 
         final Optional<Player> playerMaybe = playerService.findByKey(playerKey);
         if (!playerMaybe.isPresent()) {
@@ -49,6 +58,7 @@ public class LevelController {
         newImage.setInputStream(file.getInputStream());
         newImage.setName(UUID.randomUUID().toString());
         newImage.setOwner(playerMaybe.get());
+        newImage.setLocation(location);
 
         ImageFile imageFile = imageService.store(newImage);
 
