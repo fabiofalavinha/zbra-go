@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/dashboard")
 public class PublicDashboardController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public ModelAndView dashboard() {
         return new ModelAndView("public/dashboard");
     }
